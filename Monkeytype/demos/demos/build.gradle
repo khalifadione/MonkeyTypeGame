@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+configurations {
+  testCompile
+}
+
+group 'fr.u-paris.informatique.cpoo5'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    implementation group: 'org.fxmisc.richtext', name: 'richtextfx', version: '0.11.0'
+    implementation 'com.google.code.gson:gson:2.10'
+}
+
+javafx {
+    version = "17"
+    modules = [ 'javafx.controls' ]
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task chatclient(type: JavaExec) {
+    dependsOn build
+    group = "Execution"
+    description = "Run the TCP chat client"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'fr.uparis.informatique.cpoo5.tcpdemo.ChatClient'
+    standardInput = System.in
+}
+
+task chatserver(type: JavaExec) {
+    dependsOn build
+    group = "Execution"
+    description = "Run the TCP chat server"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'fr.uparis.informatique.cpoo5.tcpdemo.ChatServer'
+    standardInput = System.in
+}
+
+
+task jsondemo(type: JavaExec) {
+    dependsOn build
+    group = "Execution"
+    description = "Demonstrate JSON serialization using GSON"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'fr.uparis.informatique.cpoo5.jsondemo.JsonDemo'
+}
+
+mainClassName = 'fr.uparis.informatique.cpoo5.richtextdemo.RichTextDemo'
